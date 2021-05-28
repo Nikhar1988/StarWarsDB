@@ -2,7 +2,7 @@ import React from 'react';
 
 import './todo-list-item.css';
 
-const TodoListItem = ({label, important = false, taskStatus, onDoneTask}) => {
+const TodoListItem = ({label, important = false, taskStatus, onDoneTask, onImportantTask}) => {
 
   
     
@@ -24,7 +24,7 @@ const TodoListItem = ({label, important = false, taskStatus, onDoneTask}) => {
   
         <button type="button"
                 className="btn btn-outline-success btn-sm float-right"
-                /* onClick = {onImportantTask} */>
+                onClick = {onImportantTask}>
           <i className="fa fa-exclamation" />
         </button>
   

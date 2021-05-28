@@ -32,8 +32,16 @@ export default class App extends Component {
 
   }
   
-  onImportantTask = () => {
-
+  onImportantTask = (id) => {
+    this.setState(({data}) => {
+      const index = data.findIndex( (elem) => elem.id === id);
+      const newItem = {...data[index], important: !data[index].important};
+      const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
+      return {    
+          data: newArr
+     }   
+   
+    }) 
   }   
   
   render() {
@@ -47,7 +55,10 @@ export default class App extends Component {
           <ItemStatusFilter />
         </div>
   
-        <TodoList todos={data}   onDoneTask={this.onDoneTask}/>
+        <TodoList 
+        todos={data}   
+        onDoneTask={this.onDoneTask}
+        onImportantTask={this.onImportantTask}/>
       </div>
     );
   }
