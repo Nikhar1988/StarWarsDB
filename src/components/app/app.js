@@ -10,13 +10,48 @@ export default class App extends Component {
   maxId = 100;
 
   state = {
-    listData:'',
+    searchData: '',
+    active: 'all',
+    listData: '',
     data: [
       { label: 'Drink Coffee', important: false, taskStatus: false, id: 1 },
       { label: 'Make Awesome App', important: true, taskStatus: false, id: 2 },
       { label: 'Have a lunch', important: false, taskStatus: false, id: 3 }
     ]
   }
+
+  onActiveDone = (items, value) => {
+
+    console.log(value)
+    switch (value) {
+      case 'noDone':
+        return items.filter(item => item.taskStatus);
+
+
+      case 'done':
+        return items.filter(item => !item.taskStatus);
+
+
+      case 'all':
+        return items
+
+      default:
+        console.log('неполучилось')
+    }
+  }
+
+
+
+  searchListData = (items, searchData) => {
+    if (searchData.length === 0) {
+      return items
+    }
+
+    return items.filter((item) => {
+      return item.label.toLowerCase().indexOf(searchData.toLowerCase()) > -1
+    })
+  }
+
 
   onDoneTask = (id) => {
     this.setState(({ data }) => {
@@ -27,12 +62,12 @@ export default class App extends Component {
   }
 
   toggleProperty(arr, id, propDeal) {
-        const index = arr.findIndex((elem) => elem.id === id);
-        const newItem = { ...arr[index], [propDeal]: !arr[index][propDeal]};
-        return [...arr.slice(0, index), newItem, ...arr.slice(index + 1)];
-        
+    const index = arr.findIndex((elem) => elem.id === id);
+    const newItem = { ...arr[index], [propDeal]: !arr[index][propDeal] };
+    return [...arr.slice(0, index), newItem, ...arr.slice(index + 1)];
+
   }
-  
+
   onDeliteTask = (id) => {
     this.setState(({ data }) => {
       const index = data.findIndex((elem) => elem.id === id);
@@ -51,10 +86,10 @@ export default class App extends Component {
     })
   }
 
-  
+
   onSubmit = (e) => {
     e.preventDefault();
-    this.setState(({ data}) => {
+    this.setState(({ data }) => {
       const newItem = {
         label: this.state.listData,
         important: false,
@@ -75,25 +110,41 @@ export default class App extends Component {
       listData: e.target.value
     })
   }
-  
+
+  onUpdateSearch = (searchData) => {
+    this.setState({ searchData })
+  }
+
+  onActive = (activ) => {
+    console.log(activ)
+    this.setState({ active: activ })
+  }
+
+
+
   render() {
-    const { data, listData } = this.state;
+
+    const { data, listData, searchData, active } = this.state;
     const done = this.state.data.filter(item => item.taskStatus === true).length;
+
+    const viewdata = this.onActiveDone(this.searchListData(data, searchData), active)
+    console.log(viewdata)
+    console.log(searchData)
     const todo = data.length - done;
     return (
       <div className="todo-app">
         <AppHeader toDo={todo} done={done} />
         <div className="top-panel d-flex">
-          <SearchPanel />
-          <ItemStatusFilter />
+          <SearchPanel onUpdate={this.onUpdateSearch} />
+          <ItemStatusFilter onActiveDone={this.onActive} />
         </div>
 
         <TodoList
-          todos={data}
+          todos={viewdata}
           onDoneTask={this.onDoneTask}
           onImportantTask={this.onImportantTask}
           onDeliteTask={this.onDeliteTask} />
-        <ItemAddForm listData ={listData} onSubmit={this.onSubmit} onLabelChange={this.onLabelChange} />
+        <ItemAddForm listData={listData} onSubmit={this.onSubmit} onLabelChange={this.onLabelChange} />
       </div>
     );
   }
