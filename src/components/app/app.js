@@ -11,6 +11,7 @@ export default class App extends Component {
 
   state = {
     listData:'',
+    searchFilter: '',
     data: [
       { label: 'Drink Coffee', important: false, taskStatus: false, id: 1 },
       { label: 'Make Awesome App', important: true, taskStatus: false, id: 2 },
@@ -76,20 +77,40 @@ export default class App extends Component {
     })
   }
   
+
+  onUbdateSearch = (e) => {
+    
+    this.setState ({
+      searchFilter: e.target.value})
+  }
+
+  searchFilterData = (items, filterWord) => {
+      if(filterWord.length === 0) {
+        return items;
+      }
+
+      return items.filter((item) => {
+        return item.label.toLowerCase().indexOf(filterWord.toLowerCase()) > -1
+      })
+  }
+
+
+
   render() {
-    const { data, listData } = this.state;
+    const { data, listData, searchFilter } = this.state;
     const done = this.state.data.filter(item => item.taskStatus === true).length;
     const todo = data.length - done;
+    const visiable = this.searchFilterData(data, searchFilter);
     return (
       <div className="todo-app">
         <AppHeader toDo={todo} done={done} />
         <div className="top-panel d-flex">
-          <SearchPanel />
+          <SearchPanel onUbdateSearch={this.onUbdateSearch} />
           <ItemStatusFilter />
         </div>
 
         <TodoList
-          todos={data}
+          todos={visiable}
           onDoneTask={this.onDoneTask}
           onImportantTask={this.onImportantTask}
           onDeliteTask={this.onDeliteTask} />
