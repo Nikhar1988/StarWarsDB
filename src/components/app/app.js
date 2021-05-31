@@ -22,9 +22,8 @@ export default class App extends Component {
 
   onActiveDone = (items, value) => {
 
-    console.log(value)
     switch (value) {
-      case 'noDone':
+      case 'active':
         return items.filter(item => item.taskStatus);
 
 
@@ -116,7 +115,6 @@ export default class App extends Component {
   }
 
   onActive = (activ) => {
-    console.log(activ)
     this.setState({ active: activ })
   }
 
@@ -128,15 +126,13 @@ export default class App extends Component {
     const done = this.state.data.filter(item => item.taskStatus === true).length;
 
     const viewdata = this.onActiveDone(this.searchListData(data, searchData), active)
-    console.log(viewdata)
-    console.log(searchData)
     const todo = data.length - done;
     return (
       <div className="todo-app">
         <AppHeader toDo={todo} done={done} />
         <div className="top-panel d-flex">
           <SearchPanel onUpdate={this.onUpdateSearch} />
-          <ItemStatusFilter onActiveDone={this.onActive} />
+          <ItemStatusFilter onActiveDone={this.onActive} activeStatus={active} />
         </div>
 
         <TodoList
