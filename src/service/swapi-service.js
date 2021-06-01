@@ -22,6 +22,22 @@ export default class SwapiService {
     getPerson(id) {
         return this.getResourse(`/people/${id}`);
     }
+
+    getAllPlanets() {
+        return this.getResourse(`/planets/`);
+    }
+
+    getPlanet(id) {
+        return this.getResourse(`/planets/${id}`);
+    }
+
+    getAllStarships() {
+        return this.getResourse(`/starships/`);
+    }
+
+    getStarship(id) {
+        return this.getResourse(`/starships/${id}`);
+    }
 }
 
 const swipe = new SwapiService();
