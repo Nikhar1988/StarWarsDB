@@ -1,4 +1,3 @@
-
 export default class SwapiService {
 
     _apiBase = 'https://swapi.dev/api';
@@ -15,31 +14,81 @@ export default class SwapiService {
     }
 
 
-    getAllPeople() {
-        return this.getResourse(`/people/`);
+    async getAllPeople() {
+        const people = await this.getResourse(`/people/`);
+        return people.results.map(this._transformPerson);
     }
 
-    getPerson(id) {
-        return this.getResourse(`/people/${id}`);
+    async getPerson(id) {
+        const person = await this.getResourse(`/people/${id}`);
+        return this._transformPerson(person)
     }
 
-    getAllPlanets() {
-        return this.getResourse(`/planets/`);
+    async getAllPlanets() {
+        const planets = await this.getResourse(`/planets/`);
+        return planets.results.map(this._transformPlanet)
     }
 
-    getPlanet(id) {
-        return this.getResourse(`/planets/${id}`);
+    async getPlanet(id) {
+        const planet = await this.getResourse(`/planets/${id}`);
+        return this._transformPlanet(planet);
     }
 
-    getAllStarships() {
-        return this.getResourse(`/starships/`);
+    async getAllStarships() {
+        const starships = await this.getResourse(`/starships/`);
+        return starships.results.map(this._transformStarship)
     }
 
-    getStarship(id) {
-        return this.getResourse(`/starships/${id}`);
+    async getStarship(id) {
+        const starship = await this.getResourse(`/starships/${id}`);
+        return this._transformStarship(starship);
     }
+
+
+    
+   _extractId = (item) => {
+        const idRegExp = /\/([0-9]*)\/$/;
+        return item.url.match(idRegExp)[1];
+   } 
+    
+    
+    _transformPlanet = (planet) => { 
+        console.log(this._extractId(planet))
+        return {
+            id: this._extractId(planet),
+            name: planet.name,
+            population: planet.population,
+            rotationPeriod: planet.rotation_period,
+            diameter: planet.diameter
+        }
+    }
+
+    _transformStarship = (starship) => {
+        return {
+            id: this._extractId(starship),
+            name: starship.name,
+            model: starship.model,
+            manufacturer: starship.manufacturer,
+            costInCredits: starship.costInCredits,
+            length: starship.length,
+            crew: starship.crew,
+            passengers: starship.passengers,
+            cargoCapacity: starship.cargoCapacity
+          }
+        }
+
+        _transformPerson(person) {
+            return {
+              id: this._extractId(person),
+              name: person.name,
+              gender: person.gender,
+              birthYear: person.birthYear,
+              eyeColor: person.eyeColor
+            }
+          }
+
+
 }
 
-const swipe = new SwapiService();
 
-swipe.getAllPeople().then(body => console.log(body))
+
