@@ -40,7 +40,7 @@ renderItem = (arr) => {
       return <li 
       className="list-group-item"
       key = {id}
-      /* onClick={() => this.props.onItemSelected(id)}  */
+      onClick={() => this.props.onItemSelected(id)} 
       >{name}</li>
   }) 
 }
