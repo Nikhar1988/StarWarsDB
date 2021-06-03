@@ -4,12 +4,12 @@ export default class SwapiService {
 
     async getResourse(url) {
         const res = await fetch(`${this._apiBase}${url}`);
-    
-        if(!res.ok) {
-            throw new Error(`Could not fetch ${url}` + 
+
+        if (!res.ok) {
+            throw new Error(`Could not fetch ${url}` +
                 `,received ${res.status}`)
         }
-    
+
         return await res.json();
     }
 
@@ -45,14 +45,14 @@ export default class SwapiService {
     }
 
 
-    
-   _extractId = (item) => {
+
+    _extractId = (item) => {
         const idRegExp = /\/([0-9]*)\/$/;
         return item.url.match(idRegExp)[1];
-   } 
-    
-    
-    _transformPlanet = (planet) => { 
+    }
+
+
+    _transformPlanet = (planet) => {
         console.log(this._extractId(planet))
         return {
             id: this._extractId(planet),
@@ -74,21 +74,18 @@ export default class SwapiService {
             crew: starship.crew,
             passengers: starship.passengers,
             cargoCapacity: starship.cargoCapacity
-          }
         }
+    }
 
-        _transformPerson(person) {
-            return {
-              id: this._extractId(person),
-              name: person.name,
-              gender: person.gender,
-              birthYear: person.birthYear,
-              eyeColor: person.eyeColor
-            }
-          }
+    _transformPerson(person) {
+        return {
+            id: this._extractId(person),
+            name: person.name,
+            gender: person.gender,
+            birthYear: person.birthYear,
+            eyeColor: person.eyeColor
+        }
+    }
 
 
 }
-
-
-

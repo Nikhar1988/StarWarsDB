@@ -1,9 +1,10 @@
 import React from 'react';
 
-import Header from '../header';
-import RandomPlanet from '../random-planet';
-import ItemList from '../item-list';
-import PersonDetails from '../person-details';
+import Header from '../header/';
+import RandomPlanet from '../random-planet/';
+import ItemList from '../item-list/';
+import PersonDetails from '../person-details/';
+
 // https://github.com/Juriy/pro-react-redux
 import './app.css';
 
