@@ -22,8 +22,8 @@ export default class RandomPlanet extends Component {
   }
 
   loadingService = () => {
-    const id = 12000;
-    this.swapiService.getPlanet(id)/* Math.floor(Math.random() * 25) + 2;  */
+    const id = Math.floor(Math.random() * 25) + 2;
+    this.swapiService.getPlanet(id)
       .then(this.updatePlanet)
       .catch(this.onError)
   }
@@ -53,7 +53,7 @@ export default class RandomPlanet extends Component {
     const content = !(loading || error) ? <PlanetView planet={planet} /> : null ;
     const spinner = loading ? <Spinner /> : null;
     return (
-      <div className="random-planet jumbotron rounded">
+      <div className="random-planet jumbotron ">
         {errorMessage}
         {content}
         {spinner}
@@ -68,7 +68,7 @@ const PlanetView = ( {planet} ) => {
   return (
     <>
       <img className="planet-image"
-        src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} />
+           src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} />
       <div>
         <h4>{name}</h4>
         <ul className="list-group list-group-flush">
