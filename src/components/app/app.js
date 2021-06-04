@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import ErrorButton from '../error-button/'
 import Header from '../header/';
 import RandomPlanet from '../random-planet/';
-import ItemList from '../item-list/';
-import PersonDetails from '../person-details/';
+import PeoplePage from '../people-page';
+import ErrorIndicator from '../error-indicator';
 
 // https://github.com/Juriy/pro-react-redux
 import './app.css';
@@ -11,17 +11,13 @@ import './app.css';
 
 export default class App extends Component {
 
-
   state = {
     selectedChar: null,
-    showRandomPlanet: true
+    showRandomPlanet: true,
+    hasError: false
   }
 
-  onDetailSelectedChar = (id) => {
-    this.setState({
-      selectedChar: id
-    })
-  }
+ 
 
   toggleRandomPlanet = () => {
     this.setState( state => ({
@@ -29,24 +25,27 @@ export default class App extends Component {
     }))
   }
 
+  componentDidCatch = () => {
+    console.log('componentDidCatch');
+    this.setState({
+      hasError: true
+    })
+  }
 
   render() {
-    const { selectedChar,showRandomPlanet } = this.state;
-console.log(showRandomPlanet)
+    const {showRandomPlanet, hasError } = this.state;
+    if (hasError) {
+      return <ErrorIndicator/>
+    }
+    
     const randomPlanet = showRandomPlanet ? <RandomPlanet /> : null;
+
     return (
       <div>
         <Header />
         {randomPlanet}
         <ToggleRandomPlanet toggleRandom={this.toggleRandomPlanet}/>
-        <div className="row mb2">
-          <div className="col-md-6">
-            <ItemList onItemSelected={this.onDetailSelectedChar} />
-          </div>
-          <div className="col-md-6">
-            <PersonDetails idSelected={selectedChar} />
-          </div>
-        </div>
+        <PeoplePage/>
       </div>
     )
   }

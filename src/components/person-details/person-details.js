@@ -81,6 +81,7 @@ const Person = ({ person }) => {
             <span>{eyeColor}</span>
           </li>
         </ul>
+        
       </div>
 
     </>

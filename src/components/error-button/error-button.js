@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import ErrorIndicator from '../error-indicator'
 import './error-button.css';
 
 export default class ErrorButton extends Component {
@@ -10,7 +10,7 @@ export default class ErrorButton extends Component {
 
   render() {
     if (this.state.renderError) {
-      
+      this.foo.bar = 0;
     }
 
     return (
