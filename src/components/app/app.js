@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import ErrorButton from '../error-button/'
 import Header from '../header/';
 import RandomPlanet from '../random-planet/';
 import ItemList from '../item-list/';
@@ -13,7 +13,8 @@ export default class App extends Component {
 
 
   state = {
-    selectedChar: null
+    selectedChar: null,
+    showRandomPlanet: true
   }
 
   onDetailSelectedChar = (id) => {
@@ -22,16 +23,22 @@ export default class App extends Component {
     })
   }
 
-
+  toggleRandomPlanet = () => {
+    this.setState( state => ({
+      showRandomPlanet: !state.showRandomPlanet
+    }))
+  }
 
 
   render() {
-    const { selectedChar } = this.state;
+    const { selectedChar,showRandomPlanet } = this.state;
+console.log(showRandomPlanet)
+    const randomPlanet = showRandomPlanet ? <RandomPlanet /> : null;
     return (
       <div>
         <Header />
-        <RandomPlanet />
-
+        {randomPlanet}
+        <ToggleRandomPlanet toggleRandom={this.toggleRandomPlanet}/>
         <div className="row mb2">
           <div className="col-md-6">
             <ItemList onItemSelected={this.onDetailSelectedChar} />
@@ -45,3 +52,19 @@ export default class App extends Component {
   }
 }
 
+const ToggleRandomPlanet = ({toggleRandom}) => {
+  return (
+      <>
+        <div className="mb2 button-row marge ">
+          <button
+            className="toggle-planet btn btn-warning btn-lg"
+            onClick={toggleRandom}>
+            Toggle Random Planet
+          </button>
+          <ErrorButton />
+          </div> 
+       
+      </>
+      
+  )
+}
