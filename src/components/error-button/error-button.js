@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ErrorIndicator from '../error-indicator'
+
 import './error-button.css';
 
 export default class ErrorButton extends Component {

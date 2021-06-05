@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import SwapiService from '../../service/swapi-service';
 import Spinner from '../spinner';
 
 import './item-list.css';
 
 export default class ItemList extends Component {
 
-  swapiService =  new SwapiService();
+ 
 
 state ={
   loading: true,
-  starCharacter: null
+  starItem: null
 }
 
   componentDidMount = () => {
-    this.swapiService.getAllPeople()
+    this.props.getResurs()
       .then(this.updateCharacter)
       .catch(this.onError)
   }
@@ -27,37 +26,39 @@ onError = () => {
 
 
 
-updateCharacter = (starCharacter) => {
+updateCharacter = (starItem) => {
   
     this.setState({
-      starCharacter,
+      starItem,
       loading: false
     })
 }
 
 renderItem = (arr) => {
-    return arr.map(({id, name}) => {
+    return arr.map((item) => {
+      const {id} = item;
+      const label = this.props.renderItem(item);
       return <li 
       className="list-group-item"
       key = {id}
       onClick={() => this.props.onItemSelected(id)} 
-      >{name}</li>
+      >{label}</li>
   }) 
 }
 
 
 
   render() {
-    const {starCharacter} = this.state;
+    const {starItem} = this.state;
 
-    if (!starCharacter) {
+    if (!starItem) {
       return <Spinner/>
     }
-   const viewCharacter = this.renderItem(starCharacter);
+   const viewItem = this.renderItem(starItem);
 
     return (
       <ul className="item-list list-group">
-        {viewCharacter}
+        {viewItem}
       </ul>
     );
   }
