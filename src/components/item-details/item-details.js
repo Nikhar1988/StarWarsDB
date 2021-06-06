@@ -28,12 +28,12 @@ export default class ItemDetails extends Component {
   }
 
   updateItem = () => {
-    const { idSelected } = this.props;
+    const { idSelected, getData } = this.props;
     if (!idSelected) {
       return;
     }
 
-    this.swapiService.getPerson(idSelected)
+    getData(idSelected)
       .then((item) => {
         this.setState({
           item,
