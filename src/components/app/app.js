@@ -17,10 +17,10 @@ export default class App extends Component {
     hasError: false
   }
 
- 
+
 
   toggleRandomPlanet = () => {
-    this.setState( state => ({
+    this.setState(state => ({
       showRandomPlanet: !state.showRandomPlanet
     }))
   }
@@ -33,37 +33,37 @@ export default class App extends Component {
   }
 
   render() {
-    const {showRandomPlanet, hasError } = this.state;
+    const { showRandomPlanet, hasError } = this.state;
     if (hasError) {
-      return <ErrorIndicator/>
+      return <ErrorIndicator />
     }
-    
+
     const randomPlanet = showRandomPlanet ? <RandomPlanet /> : null;
 
     return (
       <div>
         <Header />
         {randomPlanet}
-        <ToggleRandomPlanet toggleRandom={this.toggleRandomPlanet}/>
-        <PeoplePage/>
+        <ToggleRandomPlanet toggleRandom={this.toggleRandomPlanet} />
+        <PeoplePage />
       </div>
     )
   }
 }
 
-const ToggleRandomPlanet = ({toggleRandom}) => {
+const ToggleRandomPlanet = ({ toggleRandom }) => {
   return (
-      <>
-        <div className="mb2 button-row marge ">
-          <button
-            className="toggle-planet btn btn-warning btn-lg"
-            onClick={toggleRandom}>
-            Toggle Random Planet
+    <>
+      <div className="mb2 button-row marge ">
+        <button
+          className="toggle-planet btn btn-warning btn-lg"
+          onClick={toggleRandom}>
+          Toggle Random Planet
           </button>
-          <ErrorButton />
-          </div> 
-       
-      </>
-      
+        <ErrorButton />
+      </div>
+
+    </>
+
   )
 }

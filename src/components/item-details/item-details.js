@@ -1,41 +1,42 @@
 import React, { Component } from 'react';
 import SwapiService from '../../service/swapi-service';
 import Spinner from '../spinner';
+import ErrorButton from '../error-button';
 
-import './person-details.css';
+import './item-details.css';
 
-export default class PersonDetails extends Component {
+export default class ItemDetails extends Component {
 
   swapiService = new SwapiService();
 
   state = {
-    person: null,
+    item: null,
     loading: false
   }
 
   componentDidMount = () => {
-    this.updatePerson();
+    this.updateItem();
   }
 
   componentDidUpdate = (prevProps) => {
     if (this.props.idSelected !== prevProps.idSelected) {
-      this.updatePerson();
+      this.updateItem();
       this.setState({
         loading: true
       })
     }
   }
 
-  updatePerson = () => {
+  updateItem = () => {
     const { idSelected } = this.props;
     if (!idSelected) {
       return;
     }
 
     this.swapiService.getPerson(idSelected)
-      .then((person) => {
+      .then((item) => {
         this.setState({
-          person,
+          item,
           loading: false
         })
       })
@@ -44,26 +45,26 @@ export default class PersonDetails extends Component {
   }
 
   render() {
-    console.log(this.state.person)
-    if (!this.state.person) {
+    console.log(this.state.item)
+    if (!this.state.item) {
       return <h3>Выберите персонажа...</h3>
     }
-    const { person, loading } = this.state;
-    const content = loading ? <Spinner /> : <Person person={person} />;
+    const { item, loading } = this.state;
+    const content = loading ? <Spinner /> : <Item item={item} />;
 
     return (
-      <div className="person-details card">
+      <div className="item-details card">
         {content}
       </div>
     )
   }
 }
 
-const Person = ({ person }) => {
-  const { id, name, gender, birthYear, eyeColor } = person;
+const Item = ({ item }) => {
+  const { id, name, gender, birthYear, eyeColor } = item;
   return (
     <>
-      <img className="person-image"
+      <img className="item-image"
         src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} />
       <div className="card-body">
         <h4>{name}</h4>
@@ -81,7 +82,7 @@ const Person = ({ person }) => {
             <span>{eyeColor}</span>
           </li>
         </ul>
-        
+        <ErrorButton />
       </div>
 
     </>
