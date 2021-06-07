@@ -5,13 +5,27 @@ import ErrorButton from '../error-button';
 
 import './item-details.css';
 
+const Record = ({item, field, label}) => {
+  return (
+    <li className="list-group-item">
+      <span className="term">{label}</span>
+      <span>{item[field]}</span>
+    </li> 
+  )
+}
+
+export {
+  Record
+};
+
 export default class ItemDetails extends Component {
 
   swapiService = new SwapiService();
 
   state = {
     item: null,
-    loading: false
+    loading: false,
+    image: null
   }
 
   componentDidMount = () => {
@@ -28,7 +42,7 @@ export default class ItemDetails extends Component {
   }
 
   updateItem = () => {
-    const { idSelected, getData } = this.props;
+    const { idSelected, getData, getImageUrl } = this.props;
     if (!idSelected) {
       return;
     }
@@ -37,7 +51,8 @@ export default class ItemDetails extends Component {
       .then((item) => {
         this.setState({
           item,
-          loading: false
+          loading: false,
+          image: getImageUrl(item)
         })
       })
 
@@ -45,12 +60,18 @@ export default class ItemDetails extends Component {
   }
 
   render() {
-    console.log(this.state.item)
+    console.log(this.state.item) 
+    console.log(this.state.image)
     if (!this.state.item) {
       return <h3>Выберите персонажа...</h3>
     }
-    const { item, loading } = this.state;
-    const content = loading ? <Spinner /> : <Item item={item} />;
+    const { item, loading, image } = this.state;
+
+    const children =  React.Children.map(this.props.children, (child) => {
+      return React.cloneElement(child, {item})
+    });
+
+    const content = loading ? <Spinner /> : <Item item={item} image={image} children={children} />;
 
     return (
       <div className="item-details card">
@@ -60,27 +81,16 @@ export default class ItemDetails extends Component {
   }
 }
 
-const Item = ({ item }) => {
-  const { id, name, gender, birthYear, eyeColor } = item;
+const Item = ({ item, image, children }) => {
+  
   return (
     <>
-      <img className="item-image"
-        src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} />
-      <div className="card-body">
-        <h4>{name}</h4>
+      <img className ="item-image"
+        src={image} />
+      <div className ="card-body">
+        <h4>{item.name}</h4>
         <ul className="list-group list-group-flush">
-          <li className="list-group-item">
-            <span className="term">Gender</span>
-            <span>{gender}</span>
-          </li>
-          <li className="list-group-item">
-            <span className="term">Birth Year</span>
-            <span>{birthYear}</span>
-          </li>
-          <li className="list-group-item">
-            <span className="term">Eye Color</span>
-            <span>{eyeColor}</span>
-          </li>
+            {children}
         </ul>
         <ErrorButton />
       </div>

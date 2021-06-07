@@ -5,7 +5,7 @@ import RandomPlanet from '../random-planet/';
 import PeoplePage from '../people-page';
 import ErrorIndicator from '../error-indicator';
 import Row from '../row';
-import ItemDetails from '../item-details';
+import ItemDetails, {Record} from '../item-details';
 import SwapiService from '../../service/swapi-service';
 
 // https://github.com/Juriy/pro-react-redux
@@ -44,17 +44,34 @@ export default class App extends Component {
     }
     const randomPlanet = showRandomPlanet ? <RandomPlanet /> : null;
 
+    const {getPerson, getStarship, getPersonImage, getStarshipImage} = this.swapiService;
+
     const personlDetails = (
       <ItemDetails
         idSelected={11}
-        getData={this.swapiService.getPerson} />
+        getData={getPerson}
+        getImageUrl={getPersonImage}>
+          
+        <Record field = 'gender' label = 'Gender' />
+        <Record field = 'birthYear' label = 'Birth Year' />
+        <Record field = 'eyeColor' label = 'Eye Color' />
+
+      </ItemDetails>
     )
 
 
     const startshipDetails = (
       <ItemDetails
-        idSelected={4}
-        getData={this.swapiService.getStarship} />
+        idSelected={9}
+        getData={getStarship} 
+        getImageUrl={getStarshipImage}>
+
+        <Record field = 'model' label = 'Model' />
+        <Record field = 'length' label = 'Length' />
+        <Record field = 'passengers' label = 'Passengers' />
+        <Record field = 'manufacturer' label = 'Manufacturer' />
+
+      </ItemDetails>
     )
 
 
