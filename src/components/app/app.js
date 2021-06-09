@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import {SwapiServiceProvider} from '../swapi-service-context';
 import Header from '../header';
 import RandomPlanet from '../random-planet';
 import ErrorBoundry from '../error-boundry';
@@ -75,22 +75,24 @@ export default class App extends Component {
 
     return (
       <ErrorBoundry>
-        <div className="stardb-app">
-          <Header />
+        <SwapiServiceProvider value ={this.swapiService}>
+          <div className="stardb-app">
+            <Header />
 
-          <PersonDetails itemId={11} />
+            <PersonDetails itemId={11} />
 
-          <PlanetDetails itemId={5} />
+            <PlanetDetails itemId={5} />
 
-          <StarshipDetails itemId={9} />
+            <StarshipDetails itemId={9} />
 
-          <PersonList />
+            <PersonList />
 
-          <PlanetList />
+            <PlanetList />
 
-          <StarshipList />
+            <StarshipList />
 
-        </div>
+          </div>
+        </SwapiServiceProvider>        
       </ErrorBoundry>
     );
   }
