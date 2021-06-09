@@ -39,15 +39,15 @@ export default class App extends Component {
   render() {
 
     const planet = this.state.showRandomPlanet ?
-      <RandomPlanet/> :
+      <RandomPlanet /> :
       null;
 
     const { getPerson,
-            getStarship,
-            getPersonImage,
-            getStarshipImage,
-            getAllPeople,
-            getAllPlanets } = this.swapiService;
+      getStarship,
+      getPersonImage,
+      getStarshipImage,
+      getAllPeople,
+      getAllPlanets } = this.swapiService;
 
     const personDetails = (
       <ItemDetails
@@ -78,25 +78,17 @@ export default class App extends Component {
         <div className="stardb-app">
           <Header />
 
-        <PersonDetails itemId={11}/>
-        
-        <PlanetDetails itemId={5}/>
-        
-        <StarshipDetails itemId={9}/>
+          <PersonDetails itemId={11} />
 
+          <PlanetDetails itemId={5} />
 
+          <StarshipDetails itemId={9} />
 
-        <PersonList>
-          {({name}) => <span>{name}</span> }
-        </PersonList>
-          
-        <PlanetList>
-          {({name}) => <span>{name}</span> }
-        </PlanetList>
+          <PersonList />
 
-        <StarshipList>
-         {({name}) => <span>{name}</span> }
-        </StarshipList>
+          <PlanetList />
+
+          <StarshipList />
 
         </div>
       </ErrorBoundry>
